@@ -4,7 +4,7 @@ import info.quiquedev.userservice.controller.dto.UserConstraints.MailMaxLength
 import info.quiquedev.userservice.controller.dto.UserConstraints.MailMinLength
 import org.hibernate.validator.constraints.Length
 
-class MailModificationDto(
+class MailDto(
         @field:Length(min = MailMinLength, max = MailMaxLength)
         var value: String
 )
