@@ -1,0 +1,396 @@
+openapi: '3.0.0'
+
+info:
+  title: user-service-api
+  version: 0.0.1
+
+paths:
+  /users:
+    post:
+      summary: creates a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '201':
+          description: user created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: request body validation error. check error message in response.
+    get:
+      summary: finds users per last and first name
+      parameters:
+        - in: query
+          name: lastName
+          required: true
+          schema:
+            $ref: '#/components/schemas/LastName'
+        - in: query
+          name: firstName
+          required: true
+          schema:
+            $ref: '#/components/schemas/FirstName'
+        - in: query
+          name: searchLimit
+          description: maximum number of users to find
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        '200':
+          description: list of users who matches the search criteria. empty if no one did.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '400':
+          description: parameters validation error. check response body for details.
+
+  /users/{userId}:
+    get:
+      summary: finds an user by the user id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '200':
+          description: user found for the given user id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: user not found for the given user id
+    delete:
+      summary: deletes an user by the user id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '200':
+          description: user has been deleted
+        '404':
+          description: user not found for the given user id
+
+  /users/{userId}/mails:
+    post:
+      summary: adds a new mail to the given user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mail'
+      responses:
+        '201':
+          description: mail has been added
+        '400':
+          description: request validation error. check response for details.
+        '404':
+          description: user does not exist
+        '409':
+          description: there are already to many emails for the user
+
+  /users/{userId}/mails/{mailId}:
+    put:
+      summary: modifies a mail of an user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+        - in: path
+          name: mailId
+          required: true
+          schema:
+            $ref: '#/components/schemas/MailId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailModification'
+      responses:
+        '200':
+          description: mail has been modified
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: request validation error. check response for details.
+        '404':
+          description: mail not found for user
+        '410':
+          description: user not found
+    delete:
+      summary: deletes a mail from an user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+        - in: path
+          name: mailId
+          required: true
+          schema:
+            $ref: '#/components/schemas/MailId'
+      responses:
+        '200':
+          description: mail has been deleted
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: mail not found for user
+        '409':
+          description: user has only one mail left
+        '410':
+          description: user not found
+
+  /users/{userId}/numbers:
+    post:
+      summary: adds a new number to the given user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberWithId'
+      responses:
+        '201':
+          description: number has been added
+        '400':
+          description: request validation error. check response for details.
+        '404':
+          description: user not found
+
+  /users/{userId}/numbers/{numberId}:
+    put:
+      summary: modifies a number of an user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+        - in: path
+          name: numberId
+          required: true
+          schema:
+            $ref: '#/components/schemas/NumberId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberModification'
+      responses:
+        '200':
+          description: number has been modified
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: request validation error. check response for details.
+        '404':
+          description: phone number not found for user
+        '410':
+          description: user not found
+    delete:
+      summary: deletes a number from an user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+        - in: path
+          name: numberId
+          required: true
+          schema:
+            $ref: '#/components/schemas/NumberId'
+      responses:
+        '200':
+          description: number has been deleted
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '404':
+          description: number not found for user
+        '409':
+          description: user has only one number left
+        '410':
+          description: user not found
+
+components:
+  schemas:
+    MailId:
+      type: integer
+      format: int32
+
+    Mail:
+      type: string
+      minimum: 1
+      maximum: 500
+
+    MailWithId:
+      type: object
+      required:
+        - id
+        - mail
+      properties:
+        id:
+          $ref: '#/components/schemas/MailId'
+        mail:
+          $ref: '#/components/schemas/Mail'
+
+    MailModification:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/Mail'
+
+    NumberId:
+      type: integer
+      format: int32
+
+    Number:
+      type: string
+      minimum: 1
+      maximum: 500
+
+    NumberModification:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/Number'
+
+    NumberWithId:
+      type: object
+      required:
+        - id
+        - number
+      properties:
+        id:
+          $ref: '#/components/schemas/NumberId'
+        number:
+          $ref: '#/components/schemas/Number'
+
+    UserId:
+      type: integer
+      format: int32
+
+    LastName:
+      type: string
+      minimum: 1
+      maximum: 500
+
+    FirstName:
+      type: string
+      minimum: 1
+      maximum: 500
+
+    User:
+      type: object
+      required:
+        - id
+        - lastName
+        - firstName
+        - emails
+        - phoneNumbers
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        lastName:
+          $ref: '#/components/schemas/LastName'
+        firstName:
+          $ref: '#/components/schemas/FirstName'
+        emails:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/MailWithId'
+        phoneNumbers:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/NumberWithId'
+
+    NewUser:
+      type: object
+      required:
+        - lastName
+        - firstName
+        - emails
+        - phoneNumbers
+      properties:
+        lastName:
+          $ref: '#/components/schemas/LastName'
+        firstName:
+          $ref: '#/components/schemas/FirstName'
+        emails:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/Mail'
+        phoneNumbers:
+          type: array
+          minItems: 1
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/Number'
