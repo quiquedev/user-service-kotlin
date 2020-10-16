@@ -4,10 +4,10 @@ spring:
   username: app_user
   password: app_password
   driver-class-name: "org.postgresql.Driver"
-flyway:
-  url: "jdbc:postgresql://localhost:5432/users"
-  user: root_user
-  password: root_password
-  placeholders:
-    dbAppUser: app_user
-    dbAppPassword: app_password
+  flyway:
+    url: "jdbc:postgresql://localhost:5432/users"
+    user: root_user
+    password: root_password
+    placeholders:
+      dbAppUser: app_user
+      dbAppPassword: app_password

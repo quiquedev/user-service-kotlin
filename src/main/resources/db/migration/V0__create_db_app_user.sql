@@ -1,1 +1,1 @@
-CRtEATE USER ${dbAppUser} WITH PASSWORD '${dbAppPassword}';
+CREATE USER ${dbAppUser} WITH PASSWORD '${dbAppPassword}';

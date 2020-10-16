@@ -6,23 +6,14 @@ import info.quiquedev.userservice.UserConstraints.FirstNameMaxLength
 import info.quiquedev.userservice.UserConstraints.FirstNameMinLength
 import info.quiquedev.userservice.UserConstraints.LastNameMaxLength
 import info.quiquedev.userservice.UserConstraints.LastNameMinLength
-import info.quiquedev.userservice.UserConstraints.MailMaxLength
-import info.quiquedev.userservice.UserConstraints.MailMinLength
-import info.quiquedev.userservice.UserConstraints.NumberMaxLength
-import info.quiquedev.userservice.UserConstraints.NumberMinLength
 import info.quiquedev.userservice.UserConstraints.PhoneNumbersMax
 import info.quiquedev.userservice.UserConstraints.PhoneNumbersMin
-import info.quiquedev.userservice.usecase.domain.Converters.randomId
-import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.Type
+import info.quiquedev.userservice.usecase.Utils.randomId
 import org.hibernate.validator.constraints.Length
-import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.validation.Valid
-import javax.validation.constraints.Email
+import javax.persistence.OneToMany
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 
@@ -39,28 +30,13 @@ data class User(
         @Length(min = LastNameMinLength, max = LastNameMaxLength)
         val lastName: String,
 
-        @Type(type = "jsonb")
-        @Column(columnDefinition = "jsonb")
+        @OneToMany(mappedBy = "email_id")
         @Min(EmailsMin)
         @Max(EmailsMax)
-        val emails: List<@Valid Mail>,
+        val emails: List<Email> = emptyList(),
 
-        @Type(type = "jsonb")
-        @Column(name = "phone_numbers", columnDefinition = "jsonb")
+        @OneToMany(mappedBy = "phone_number_id")
         @Min(PhoneNumbersMin)
         @Max(PhoneNumbersMax)
-        val phoneNumbers: List<@Valid Number>
-) {
-    class Mail(
-            val id: String = randomId(),
-            @field:Length(min = MailMinLength, max = MailMaxLength)
-            @field:Email
-            val value: String
-    )
-
-    class Number(
-            val id: String = randomId(),
-            @field:Length(min = NumberMinLength, max = NumberMaxLength)
-            val value: String
-    )
-}
+        val phoneNumbers: List<PhoneNumber> = emptyList()
+)

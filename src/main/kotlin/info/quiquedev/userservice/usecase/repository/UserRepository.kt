@@ -1,4 +1,4 @@
-package info.quiquedev.userservice.usecase
+package info.quiquedev.userservice.usecase.repository
 
 import info.quiquedev.userservice.usecase.domain.User
 import org.springframework.data.repository.CrudRepository

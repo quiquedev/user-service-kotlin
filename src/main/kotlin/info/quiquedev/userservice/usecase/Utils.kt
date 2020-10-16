@@ -1,19 +1,12 @@
-package info.quiquedev.userservice.usecase.domain
+package info.quiquedev.userservice.usecase
 
 import info.quiquedev.userservice.controller.dto.request.NewUserDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
+import info.quiquedev.userservice.usecase.domain.User
 import java.util.*
 
-
-object Converters {
+object Utils {
     fun randomId(): String = UUID.randomUUID().toString()
-
-    fun NewUserDto.toDomain(): User = User(
-            firstName = this.firstName,
-            lastName = this.lastName,
-            emails = this.emails.map { User.Mail(value = it) },
-            phoneNumbers = this.phoneNumbers.map { User.Number(value = it) }
-    )
 
     fun User.toDto(): UserDto = UserDto(
             id = this.id,
