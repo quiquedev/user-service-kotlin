@@ -1,6 +1,6 @@
-package info.quiquedev.userservice.controller.usecase
+package info.quiquedev.userservice.controller
 
-import info.quiquedev.userservice.controller.dto.request.MailDto
+import info.quiquedev.userservice.controller.dto.request.MailModificationDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,14 +18,14 @@ class MailsController {
     @PostMapping
     fun addEmailToUser(
             @PathVariable("userId") userId: String,
-            @Valid @RequestBody mail: MailDto
+            @Valid @RequestBody mailModification: MailModificationDto
     ): Unit = TODO()
 
     @PutMapping("/{mailId}")
     fun modifyEmailFromUser(
             @PathVariable("userId") userId: String,
             @PathVariable("mailId") mailId: String,
-            @Valid @RequestBody mail: MailDto
+            @Valid @RequestBody mailModification: MailModificationDto
     ): UserDto = TODO()
 
     @DeleteMapping("/{mailId}")

@@ -1,4 +1,4 @@
-package info.quiquedev.userservice.controller.dto
+package info.quiquedev.userservice
 
 object UserConstraints {
     const val LastNameMinLength = 500

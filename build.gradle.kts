@@ -6,11 +6,12 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.3.72"
+    id("org.flywaydb.flyway-core") version "7.0.3"
 }
 
 group = "info.quiquedev"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_15
 
 repositories {
     mavenCentral()
@@ -27,6 +28,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testImplementation("org.testcontainers:postgresql:1.15.0-rc2")
+    testImplementation("org.testcontainers:junit-jupiter:1.15.0-rc2")
 }
 
 tasks.withType<Test> {
@@ -38,4 +41,8 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
+}
+
+noArg {
+    annotation("javax.persistence.Entity")
 }

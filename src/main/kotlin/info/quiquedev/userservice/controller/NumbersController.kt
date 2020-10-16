@@ -1,6 +1,6 @@
-package info.quiquedev.userservice.controller.usecase
+package info.quiquedev.userservice.controller
 
-import info.quiquedev.userservice.controller.dto.request.NumberDto
+import info.quiquedev.userservice.controller.dto.request.NumberModificationDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,14 +18,14 @@ class NumbersController {
     @PostMapping
     fun addNumberToUser(
             @PathVariable("userId") userId: String,
-            @Valid @RequestBody numberDto: NumberDto
+            @Valid @RequestBody numberModificationDto: NumberModificationDto
     ): UserDto = TODO()
 
     @PutMapping("/{numberId}")
     fun modifyNumberFromUser(
             @PathVariable("userId") userId: String,
             @PathVariable("numberId") numberId: String,
-            @Valid @RequestBody number: NumberDto
+            @Valid @RequestBody numberModification: NumberModificationDto
     ): UserDto = TODO()
 
     @DeleteMapping("/{numberId}")

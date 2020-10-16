@@ -1,0 +1,1 @@
+CRtEATE USER ${dbAppUser} WITH PASSWORD '${dbAppPassword}';
