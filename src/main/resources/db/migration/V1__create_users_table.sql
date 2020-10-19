@@ -4,5 +4,5 @@ CREATE TABLE users (
   first_name VARCHAR(500) NOT NULL
 );
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON users TO ${dbAppUser};
+GRANT SELECT, INSERT, DELETE ON users TO ${dbAppUser};
 

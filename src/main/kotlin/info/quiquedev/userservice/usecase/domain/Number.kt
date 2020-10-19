@@ -2,6 +2,8 @@ package info.quiquedev.userservice.usecase.domain
 
 import info.quiquedev.userservice.UserConstraints.MailMaxLength
 import info.quiquedev.userservice.UserConstraints.MailMinLength
+import info.quiquedev.userservice.UserConstraints.NumberMaxLength
+import info.quiquedev.userservice.UserConstraints.NumberMinLength
 import info.quiquedev.userservice.usecase.Utils.randomId
 import org.hibernate.validator.constraints.Length
 import javax.persistence.Column
@@ -11,16 +13,16 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.validation.constraints.Email
 
-@Entity(name = "emails")
-data class Email(
+@Entity(name = "numbers")
+data class Number(
         @Id
-        @Column(name = "email_id")
+        @Column(name = "number_id")
         val id: String = randomId(),
 
         @ManyToOne
         @JoinColumn(name = "user_id")
         val user: User,
 
-        @field:Length(min = MailMinLength, max = MailMaxLength)
+        @field:Length(min = NumberMinLength, max = NumberMaxLength)
         val value: String
 )

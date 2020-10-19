@@ -37,7 +37,7 @@ data class User(
         )
         @Min(EmailsMin)
         @Max(EmailsMax)
-        val emails: List<Email> = emptyList(),
+        val mail: List<Mail> = emptyList(),
 
         @OneToMany(
                 cascade = [CascadeType.ALL],
@@ -45,5 +45,5 @@ data class User(
         )
         @Min(PhoneNumbersMin)
         @Max(PhoneNumbersMax)
-        val phoneNumbers: List<PhoneNumber> = emptyList()
+        val numbers: List<Number> = emptyList()
 )

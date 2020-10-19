@@ -11,10 +11,10 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.validation.constraints.Email
 
-@Entity(name = "phone_numbers")
-data class PhoneNumber(
+@Entity(name = "mails")
+data class Mail(
         @Id
-        @Column(name = "phone_number_id")
+        @Column(name = "mail_id")
         val id: String = randomId(),
 
         @ManyToOne

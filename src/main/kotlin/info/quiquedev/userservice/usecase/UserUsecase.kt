@@ -3,11 +3,11 @@ package info.quiquedev.userservice.usecase
 import info.quiquedev.userservice.controller.dto.request.NewUserDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
 import info.quiquedev.userservice.usecase.Utils.toDto
-import info.quiquedev.userservice.usecase.domain.Email
-import info.quiquedev.userservice.usecase.domain.PhoneNumber
+import info.quiquedev.userservice.usecase.domain.Mail
+import info.quiquedev.userservice.usecase.domain.Number
 import info.quiquedev.userservice.usecase.domain.User
-import info.quiquedev.userservice.usecase.repository.EmailRepository
-import info.quiquedev.userservice.usecase.repository.PhoneNumberRepository
+import info.quiquedev.userservice.usecase.repository.MailRepository
+import info.quiquedev.userservice.usecase.repository.NumberRepository
 import info.quiquedev.userservice.usecase.repository.UserRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Component
@@ -16,8 +16,8 @@ import javax.transaction.Transactional
 @Component
 class UserUsecase(
         private val userRepository: UserRepository,
-        private val emailRepository: EmailRepository,
-        private val phoneNumberRepository: PhoneNumberRepository
+        private val mailRepository: MailRepository,
+        private val numberRepository: NumberRepository
 ) {
     companion object {
         class UsersUsecaseException(t: Throwable) : Exception(t)
@@ -32,11 +32,11 @@ class UserUsecase(
                         lastName = newUserDto.lastName
                 ))
 
-                val emails = emailRepository.saveAll(
-                        newUserDto.emails.map { Email(user = user, value = it) }
+                val emails = mailRepository.saveAll(
+                        newUserDto.emails.map { Mail(user = user, value = it) }
                 )
-                val phoneNumbers = phoneNumberRepository.saveAll(
-                        newUserDto.phoneNumbers.map { PhoneNumber(user = user, value = it) }
+                val phoneNumbers = numberRepository.saveAll(
+                        newUserDto.phoneNumbers.map { Number(user = user, value = it) }
                 )
 
                 UserDto(
