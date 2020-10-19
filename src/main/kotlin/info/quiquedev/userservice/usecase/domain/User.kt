@@ -10,6 +10,7 @@ import info.quiquedev.userservice.UserConstraints.PhoneNumbersMax
 import info.quiquedev.userservice.UserConstraints.PhoneNumbersMin
 import info.quiquedev.userservice.usecase.Utils.randomId
 import org.hibernate.validator.constraints.Length
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -30,12 +31,18 @@ data class User(
         @Length(min = LastNameMinLength, max = LastNameMaxLength)
         val lastName: String,
 
-        @OneToMany(mappedBy = "email_id")
+        @OneToMany(
+                cascade = [CascadeType.ALL],
+                orphanRemoval = true
+        )
         @Min(EmailsMin)
         @Max(EmailsMax)
         val emails: List<Email> = emptyList(),
 
-        @OneToMany(mappedBy = "phone_number_id")
+        @OneToMany(
+                cascade = [CascadeType.ALL],
+                orphanRemoval = true
+        )
         @Min(PhoneNumbersMin)
         @Max(PhoneNumbersMax)
         val phoneNumbers: List<PhoneNumber> = emptyList()

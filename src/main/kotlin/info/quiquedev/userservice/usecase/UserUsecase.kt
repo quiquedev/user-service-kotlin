@@ -59,7 +59,7 @@ class UserUsecase(
     }
 
     fun findUserByFirstNameAndLastName(firstName: String, lastName: String): UserDto? = try {
-        userRepository.findByFirstNameCaseIgnoreCaseAndLastNameIgnoreCase(firstName, lastName)?.toDto()
+        userRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(firstName, lastName)?.toDto()
     } catch (e: Exception) {
         throw UsersUsecaseException(e)
     }

@@ -14,7 +14,7 @@ import javax.validation.constraints.Email
 @Entity(name = "emails")
 data class Email(
         @Id
-        @Column(name = "user_id")
+        @Column(name = "email_id")
         val id: String = randomId(),
 
         @ManyToOne

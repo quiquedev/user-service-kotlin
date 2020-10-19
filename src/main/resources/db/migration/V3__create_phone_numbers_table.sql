@@ -3,7 +3,7 @@ CREATE TABLE phone_numbers
     phone_number_id uuid PRIMARY KEY,
     user_id         uuid NOT NULL,
     value           VARCHAR(500),
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (phone_number_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (user_id),
     unique (phone_number_id, user_id)
 );
 
