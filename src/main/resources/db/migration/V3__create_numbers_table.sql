@@ -7,4 +7,4 @@ CREATE TABLE numbers
     unique (number_id, user_id)
 );
 
-GRANT SELECT, INSERT, DELETE ON numbers TO ${dbAppUser};
+GRANT SELECT, INSERT, UPDATE, DELETE ON numbers TO ${dbAppUser};

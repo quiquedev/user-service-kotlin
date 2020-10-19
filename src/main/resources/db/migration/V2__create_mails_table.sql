@@ -6,4 +6,4 @@ CREATE TABLE mails(
   unique (mail_id, user_id)
 );
 
-GRANT SELECT, INSERT, DELETE ON users TO ${dbAppUser};
+GRANT SELECT, INSERT, UPDATE, DELETE ON users TO ${dbAppUser};
