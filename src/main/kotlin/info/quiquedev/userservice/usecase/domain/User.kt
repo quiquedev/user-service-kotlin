@@ -45,5 +45,5 @@ data class User(
         )
         @Min(PhoneNumbersMin)
         @Max(PhoneNumbersMax)
-        val numbers: List<Number> = emptyList()
+        val numbers: List<PhoneNumber> = emptyList()
 )

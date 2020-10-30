@@ -5,53 +5,53 @@ import info.quiquedev.userservice.controller.dto.request.NewMailDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
 import info.quiquedev.userservice.controller.dto.response.toDto
 import info.quiquedev.userservice.usecase.domain.Mail
-import info.quiquedev.userservice.usecase.repository.MailRepository
+import info.quiquedev.userservice.usecase.repository.PhoneNumberRepository
 import info.quiquedev.userservice.usecase.repository.UserRepository
 import org.springframework.stereotype.Component
 import javax.transaction.Transactional
 
 @Component
-class MailUsecase(
+class PhoneNumberUsecase(
         private val userRepository: UserRepository,
-        private val mailRepository: MailRepository
+        private val phoneNumberRepository: PhoneNumberRepository
 ) {
     companion object {
-        abstract class MailUsecaseException(msg: String, t: Throwable? = null) : Exception(msg, t)
-        class UserNotFoundException(userId: String) : MailUsecaseException("User '$userId' not found")
-        class MailNotFoundException(userId: String, mailId: String) : MailUsecaseException("Mail '$mailId' not found for '$userId'")
-        class MailAlreadyPresentException(userId: String, mail: String) :
-                MailUsecaseException("User '$userId' has already the mail '$mail'")
+        abstract class PhoneNumberUsecaseException(msg: String, t: Throwable? = null) : Exception(msg, t)
+        class UserNotFoundException(userId: String) : PhoneNumberUsecaseException("User '$userId' not found")
+        class PhoneNumberNotFoundException(userId: String, phoneNumberId: String) : PhoneNumberUsecaseException("'$phoneNumberId' not found for '$userId'")
+        class PhoneNumberAlreadyPresentException(userId: String, mail: String) :
+                PhoneNumberUsecaseException("User '$userId' has already the mail '$mail'")
     }
 
-    @Throws(MailUsecaseException::class)
+    @Throws(PhoneNumberUsecaseException::class)
     @Transactional
     fun addMailToUser(userId: String, newMailDto: NewMailDto): UserDto =
             userRepository.findById(userId).orElse(null)?.let { user ->
                 val existingMail = user.mail.find { it.value.toLowerCase() == newMailDto.value.toLowerCase() }
 
-                if (existingMail != null) throw MailAlreadyPresentException(userId, newMailDto.value)
+                if (existingMail != null) throw PhoneNumberAlreadyPresentException(userId, newMailDto.value)
                 else mailRepository.save(Mail(user = user, value = newMailDto.value)).user.toDto()
             } ?: throw UserNotFoundException(userId)
 
     @Throws(UserNotFoundException::class,
-            MailNotFoundException::class)
+            PhoneNumberNotFoundException::class)
     @Transactional
     fun modifyMailFromUser(userId: String, mailId: String, mailModificationDto: MailModificationDto): UserDto =
             userRepository.findById(userId).orElse(null)?.let { user ->
                 user.mail.find { it.id == mailId }?.let { mail ->
                     mail.value = mailModificationDto.value
                     user.toDto()
-                } ?: throw MailNotFoundException(userId, mailId)
+                } ?: throw PhoneNumberNotFoundException(userId, mailId)
             } ?: throw UserNotFoundException(userId)
 
     @Throws(UserNotFoundException::class,
-            MailNotFoundException::class)
+            PhoneNumberNotFoundException::class)
     @Transactional
     fun deleteMailFromUser(userId: String, mailId: String, mailModificationDto: MailModificationDto): UserDto =
             userRepository.findById(userId).orElse(null)?.let { user ->
                 user.mail.find { it.id == mailId }?.let { mail ->
                     mailRepository.deleteById(mailId)
                     user.copy(mail = user.mail.filter { it.id == mailId }).toDto()
-                } ?: throw MailNotFoundException(userId, mailId)
+                } ?: throw PhoneNumberNotFoundException(userId, mailId)
             } ?: throw UserNotFoundException(userId)
 }

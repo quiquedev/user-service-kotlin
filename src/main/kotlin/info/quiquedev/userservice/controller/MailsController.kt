@@ -22,7 +22,7 @@ class MailsController {
     ): Unit = TODO()
 
     @PutMapping("/{mailId}")
-    fun modifyEmailFromUser(
+    fun modifyMailFromUser(
             @PathVariable("userId") userId: String,
             @PathVariable("mailId") mailId: String,
             @Valid @RequestBody mailModification: MailModificationDto

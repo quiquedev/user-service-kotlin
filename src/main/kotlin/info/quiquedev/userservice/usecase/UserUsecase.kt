@@ -4,10 +4,10 @@ import info.quiquedev.userservice.controller.dto.request.NewUserDto
 import info.quiquedev.userservice.controller.dto.response.UserDto
 import info.quiquedev.userservice.usecase.Utils.toDto
 import info.quiquedev.userservice.usecase.domain.Mail
-import info.quiquedev.userservice.usecase.domain.Number
+import info.quiquedev.userservice.usecase.domain.PhoneNumber
 import info.quiquedev.userservice.usecase.domain.User
 import info.quiquedev.userservice.usecase.repository.MailRepository
-import info.quiquedev.userservice.usecase.repository.NumberRepository
+import info.quiquedev.userservice.usecase.repository.PhoneNumberRepository
 import info.quiquedev.userservice.usecase.repository.UserRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Component
@@ -17,7 +17,7 @@ import javax.transaction.Transactional
 class UserUsecase(
         private val userRepository: UserRepository,
         private val mailRepository: MailRepository,
-        private val numberRepository: NumberRepository
+        private val phoneNumberRepository: PhoneNumberRepository
 ) {
     companion object {
         class UsersUsecaseException(t: Throwable) : Exception(t)
@@ -35,8 +35,8 @@ class UserUsecase(
                 val emails = mailRepository.saveAll(
                         newUserDto.emails.map { Mail(user = user, value = it) }
                 )
-                val phoneNumbers = numberRepository.saveAll(
-                        newUserDto.phoneNumbers.map { Number(user = user, value = it) }
+                val phoneNumbers = phoneNumberRepository.saveAll(
+                        newUserDto.phoneNumbers.map { PhoneNumber(user = user, value = it) }
                 )
 
                 UserDto(

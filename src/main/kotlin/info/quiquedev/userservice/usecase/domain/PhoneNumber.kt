@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne
 import javax.validation.constraints.Email
 
 @Entity(name = "numbers")
-data class Number(
+data class PhoneNumber(
         @Id
         @Column(name = "number_id")
         val id: String = randomId(),

@@ -1,3 +1,3 @@
 package info.quiquedev.userservice.controller.dto.request
 
-data class NewNumberDto(val value: String)
+data class NewPhoneNumber(val value: String)

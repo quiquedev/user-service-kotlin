@@ -4,7 +4,7 @@ import info.quiquedev.userservice.UserConstraints.NumberMaxLength
 import info.quiquedev.userservice.UserConstraints.NumberMinLength
 import org.hibernate.validator.constraints.Length
 
-class NumberModificationDto(
+class PhoneNumberModificationDto(
         @field:Length(min = NumberMinLength, max = NumberMaxLength)
         var value: String
 )

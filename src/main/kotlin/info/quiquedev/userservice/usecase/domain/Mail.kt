@@ -22,5 +22,5 @@ data class Mail(
         val user: User,
 
         @field:Length(min = MailMinLength, max = MailMaxLength)
-        val value: String
+        var value: String
 )
